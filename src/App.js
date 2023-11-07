@@ -1,22 +1,28 @@
 import logo from './logo.svg';
 import './App.css';
+import React, { useEffect, useState } from 'react';
+
+import Exercise from './components/exercise';
+import WorkoutTracker from './components/WorkoutTracker';
+
 
 function App() {
+  const [workouts, setWorkouts] = useState(() => {
+    //Load from localStorage and parse or fallback to an empty object
+    const savedWorkouts = localStorage.getItem('workouts');
+    return savedWorkouts ? JSON.parse(savedWorkouts) : {};
+  });
+
+  // This effect updates localStorage when workouts state changes
+  useEffect(() => {
+    localStorage.setItem('workouts', JSON.stringify(workouts));
+  }, [workouts])
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+       <Exercise workouts={workouts} setWorkouts={setWorkouts} />
+       <WorkoutTracker workouts={workouts} />
       </header>
     </div>
   );
