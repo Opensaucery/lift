@@ -23,19 +23,19 @@ const SetLogger = ({ setNumber, onLogSet, initialReps, onTimerReset }) => {
   }, [initialReps]);
 
   return (
-    <div>
-      <GlobalStyle />
-      <label>Set #{setNumber}</label>
-      <StyledNumberInput
-          type="number"
-          value={reps}
-          onChange={(e) => setReps(Number(e.target.value))}
-          min="0"
-      />
-      <IncrementButton onClick={increment}>+</IncrementButton>
-      <DecrementButton onClick={decrement}>-</DecrementButton>
-      <Button primary onClick={handleLogSet}>Log Set</Button>
-    </div>
+    <div className='set-log'>
+        <GlobalStyle />
+        <label>Set #{setNumber}</label>
+        <StyledNumberInput
+            type="number"
+            value={reps}
+            onChange={(e) => setReps(Number(e.target.value))}
+            min="0"
+        />
+        <IncrementButton onClick={increment}>+</IncrementButton>
+        <DecrementButton onClick={decrement} min="0">-</DecrementButton>
+        <Button primary onClick={handleLogSet}>Log Set</Button>
+      </div>
   );
 };
 

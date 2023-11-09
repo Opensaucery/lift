@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, GlobalStyle } from './GlobalStyles';
+import { Button, GlobalStyle, StyledNumberInput } from './GlobalStyles';
 import Timer from './timer';
 import SetLogger from './setlogger';
 
@@ -60,15 +60,15 @@ const Exercise = ({ workouts, setWorkouts }) => {
     return (
         <div>
             <GlobalStyle />
-            <h2>Log your excercise</h2>
+            <h2>Log your exercise</h2>
             {sets.map((set, index) => (
                 <SetLogger
-                key={set.setNumber}
-                setNumber={set.setNumber}
-                initialReps={set.reps}
-                onLogSet={(reps) => onLogSet(set.setNumber, reps)} // Pass reps to onLogSet correctly
-                onTimerReset={restartTimer}
-            />
+                    key={set.setNumber}
+                    setNumber={set.setNumber}
+                    initialReps={set.reps}
+                    onLogSet={(reps) => onLogSet(set.setNumber, reps)} // Pass reps to onLogSet correctly
+                    onTimerReset={restartTimer}
+                />
             ))}
             {isTimerActive ? (
                 <Timer 
@@ -77,7 +77,7 @@ const Exercise = ({ workouts, setWorkouts }) => {
                 />
             ) : (
                 <>
-                    <input
+                    <StyledNumberInput
                         type="number"
                         value={timerDuration}
                         onChange={(e) => setTimerDuration(Number(e.target.value))}
