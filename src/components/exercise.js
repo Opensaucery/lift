@@ -5,6 +5,7 @@ import SetLogger from './setlogger';
 
 
 const Exercise = ({ workouts, setWorkouts }) => {
+    const [exerciseType, setExceriseType] = useState('Pushup');
     const [sets, setSets] = useState([{ setNumber: 1, reps: 0}]);
     const [isTimerActive, setIsTimerActive] = useState(false);
        
@@ -17,7 +18,7 @@ const Exercise = ({ workouts, setWorkouts }) => {
         const todayWorkouts = workouts[today] || [];
       
         // Check if the current exercise already has an entry for today
-        let exerciseLogged = todayWorkouts.find(ex => ex.exercise === 'Squat'); // replace 'Squat' with variable if needed
+        let exerciseLogged = todayWorkouts.find(ex => ex.exercise === exerciseType);
       
         if (exerciseLogged) {
           // If the exercise is already logged today, append the new set to it
@@ -25,7 +26,7 @@ const Exercise = ({ workouts, setWorkouts }) => {
         } else {
           // If the exercise is not logged today, create a new entry
           exerciseLogged = {
-            exercise: 'Squat', // again, replace 'Squat' with variable if needed
+            exercise: exerciseType, 
             sets: [{ setNumber, reps: newReps }],
           };
           todayWorkouts.push(exerciseLogged);
@@ -61,6 +62,12 @@ const Exercise = ({ workouts, setWorkouts }) => {
         <div>
             <GlobalStyle />
             <h2>Log your exercise</h2>
+            <input 
+                type='text'
+                value={exerciseType}
+                onChange={(e) => setExceriseType(e.target.value)}
+                placeholder={exerciseType}
+            />
             {sets.map((set, index) => (
                 <SetLogger
                     key={set.setNumber}
