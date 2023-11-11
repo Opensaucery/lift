@@ -5,15 +5,29 @@ export const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
   }
+
+  .App-header {
+    width: auto;
+    min-width: 50vw;
+    padding: 5vw
+  }
   
   input {
     margin: 0 20px;
     padding: 10px 20px;
-    border: 3px;
+    border-radius: 3px;
+    border: none;
+    margin: 10px;
+    background-color: #00000020;
+    color: #fdfdfd
   }
 
   .set-log {
     display: flex
+  }
+
+  select {
+    height: 30px;
   }
   
 `;

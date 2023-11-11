@@ -22,8 +22,11 @@ const WorkoutTracker = ({ workouts }) => {
 };
 
 const PreviousWorkouts = ({ workouts }) => {
+    console.log("Rendering in WorkoutTracker:", workouts);
+
     // Convert the workouts object into an array
-    const workoutDates = Object.keys(workouts);
+    const workoutDates = Object.keys(workouts).sort().reverse();
+    console.log("Workout dates:", workoutDates);
 
     return (
         <div>
