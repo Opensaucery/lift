@@ -27,7 +27,10 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   select {
-    height: 30px;
+    height: 35px;
+    width: auto;
+    padding: 5px;
+    border-radius: 3px;
   }
   
 `;

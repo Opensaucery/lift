@@ -1,9 +1,16 @@
 import logo from './logo.svg';
 import './App.css';
-import React, { useEffect, useState } from 'react';
-
+import React, { useEffect, useState, Suspense, lazy } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { AuthProvider } from './components/auth/UserContext';
+import Header from './components/Header';
 import Exercise from './components/exercise';
 import WorkoutTracker from './components/WorkoutTracker';
+
+// only load when clicked
+// const HomePage = lazy(() => import('./components/HomePage'));
+const LoginPage = lazy(() => import('./components/auth/Login'));
+const SigninPage = lazy(() => import('./components/auth/SignUp'));
 
 
 function App() {
@@ -15,7 +22,6 @@ function App() {
 
   // This effect updates localStorage when workouts state changes
   useEffect(() => {
-    console.log("Updated workouts:", workouts);
     localStorage.setItem('workouts', JSON.stringify(workouts));
   }, [workouts])
 
@@ -34,8 +40,33 @@ function App() {
     <div className="App">
       <header className="App-header">
           <div className='app-wrapper'>
-            <Exercise workouts={workouts} setWorkouts={setWorkouts} exerciseOptions={exerciseOptions} setExerciseOptions={setExerciseOptions}/>
-            <WorkoutTracker workouts={workouts} />
+            <AuthProvider>
+              <Router>
+                <Header />
+                <Suspense fallback={<div>Loading...</div>}>
+                  <Routes>
+                    {/* Render Exercise and WorkoutTracker on the root path */}
+                    <Route
+                      path="/"
+                      element={
+                        <>
+                          <Exercise 
+                            workouts={workouts} 
+                            setWorkouts={setWorkouts} 
+                            exerciseOptions={exerciseOptions} 
+                            setExerciseOptions={setExerciseOptions}
+                          />
+                          <WorkoutTracker workouts={workouts} />
+                        </>
+                      }
+                    />
+                    {/* <Route exact path='/' component={HomePage} /> */}
+                    <Route path='/login' element={<LoginPage />} />
+                    <Route path='/signup' element={<SigninPage />} />
+                  </Routes>
+                </Suspense>
+              </Router>
+            </AuthProvider>
           </div>
       </header>
     </div>
