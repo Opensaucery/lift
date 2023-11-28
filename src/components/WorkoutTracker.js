@@ -1,12 +1,6 @@
-import React, { useState, useEffect} from "react";
+import React, { useEffect} from "react";
 
 const WorkoutTracker = ({ workouts }) => {
-   
-    
-    useEffect(() => {
-        // Load from localStorage when the component mounts
-        const workoutHistory = JSON.parse(localStorage.getItem('workouts')) || {};
-    }, []);
 
     useEffect(() => {
         // Save to localStorage whenever workouts state changes
@@ -25,8 +19,7 @@ const PreviousWorkouts = ({ workouts }) => {
     console.log("Rendering in WorkoutTracker:", workouts);
 
     // Convert the workouts object into an array
-    const workoutDates = Object.keys(workouts).sort().reverse();
-    console.log("Workout dates:", workoutDates);
+    const workoutDates = workouts ? Object.keys(workouts).sort().reverse() :[];
 
     return (
         <div>
