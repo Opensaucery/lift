@@ -5,7 +5,6 @@ import SetLogger from './setlogger';
 
 
 const Exercise = ({ workouts, setWorkouts, exerciseOptions, setExerciseOptions }) => {
-    console.log("Exercise options in Exercise component:", exerciseOptions);
     const [exerciseType, setExerciseType] = useState('Pushup');
     const [inputValue, setInputValue] = useState(''); // new stage for input field
 
@@ -33,7 +32,6 @@ const Exercise = ({ workouts, setWorkouts, exerciseOptions, setExerciseOptions }
       
         // Detemine the exercise type to log
         const typeToLog = inputValue || exerciseType;
-        console.log("Logging exercise:", typeToLog);
 
         // Update exercise options if it's a new exercise
         if (inputValue && !exerciseOptions.includes(inputValue)) {
@@ -46,24 +44,20 @@ const Exercise = ({ workouts, setWorkouts, exerciseOptions, setExerciseOptions }
         let exerciseLogged = todayWorkouts.find(ex => ex.exercise === typeToLog);
       
         if (exerciseLogged) {
-            console.log("Appending to existing exercise:", exerciseLogged);
           // If the exercise is already logged today, append the new set to it
           exerciseLogged.sets.push({ setNumber, reps: newReps });
         } else {
-            console.log("Creating new exercise entry:", exerciseLogged);
           // If the exercise is not logged today, create a new entry
           exerciseLogged = {
             exercise: typeToLog, 
             sets: [{ setNumber, reps: newReps }],
           };
-          console.log("Updated workouts for today:", todayWorkouts);
           todayWorkouts.push(exerciseLogged);
         }
       
         // Update the state with the new or updated workout entry
         setWorkouts(prevWorkouts => {
             const updatedWorkouts = {...prevWorkouts, [today]: todayWorkouts};
-            console.log("New workouts state:", updatedWorkouts);
             return updatedWorkouts
         });
       

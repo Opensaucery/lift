@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }) => {
     return () => unsubscribe(); // Cleanup subscription on unmount
   }, []);
 
-  
+
   
 
   return (

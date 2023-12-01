@@ -18,6 +18,7 @@ const Login = () => {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       setUser(userCredential.user); // Set the user in the context
       // Redirect to home page or dashboard
+      
       navigate('/'); // Adjust the route as necessary
       setLoginError(''); // Clear any previous errors
     } catch (error) {

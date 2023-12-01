@@ -1,11 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from './auth/UserContext';
 
-const Header = ({ handleLogout }) => {
-    // const [user, setUser] = useState(null); // You'll probably get this from context or props
-  
-    const { user } = useAuth();
+const Header = ({ handleLogout, user }) => {
 
     return (
       <nav>

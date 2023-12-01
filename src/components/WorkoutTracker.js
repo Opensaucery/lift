@@ -2,10 +2,10 @@ import React, { useEffect} from "react";
 
 const WorkoutTracker = ({ workouts }) => {
 
-    useEffect(() => {
-        // Save to localStorage whenever workouts state changes
-        localStorage.setItem('workouts', JSON.stringify(workouts));
-    }, [workouts]); 
+    // useEffect(() => {
+    //     // Save to localStorage whenever workouts state changes
+    //     localStorage.setItem('workouts', JSON.stringify(workouts));
+    // }, [workouts]); 
 
     // Render previous workouts 
     return (

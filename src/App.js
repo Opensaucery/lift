@@ -3,11 +3,13 @@ import React, { useEffect, useState, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { AuthProvider, useAuth } from './components/auth/UserContext';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
-import { firestore, auth } from './Firebase';
+import { firestore } from './Firebase';
 import { signOut } from 'firebase/auth';
 import Header from './components/Header';
 import Exercise from './components/exercise';
 import WorkoutTracker from './components/WorkoutTracker';
+import { auth } from './Firebase'
+
 
 // only load when clicked
 // const HomePage = lazy(() => import('./components/HomePage'));
@@ -16,23 +18,14 @@ const SigninPage = lazy(() => import('./components/auth/SignUp'));
 
 
 function App() {
-  const { user, setUser } = useAuth();
-  const [workouts, setWorkouts] = useState({});
+  const [workouts, setWorkouts] = useState(() => {
+    const localData = localStorage.getItem('workouts');
+    return localData ? JSON.parse(localData) : {};
+  });
   const [exerciseOptions, setExerciseOptions] = useState(() => {
     const savedOptions = localStorage.getItem('exerciseOptions');
     return savedOptions ? JSON.parse(savedOptions) : ['Pushup', 'Biceps', 'Squat'];
   })
-
-  const handleLogout = async () => {
-      try {
-        await signOut(auth);
-        setUser(null); // Clear the user
-        setWorkouts({}); // Reset workouts after logout
-        localStorage.removeItem('workouts'); // Optionally clear local storage
-      } catch (error) {
-      console.error("Logout error: ", error);
-    };
-  }
   
   
   return (
@@ -42,75 +35,76 @@ function App() {
         setWorkouts={setWorkouts}
         exerciseOptions={exerciseOptions}
         setExerciseOptions={setExerciseOptions}
-        handleLogout={handleLogout}
         />
     </AuthProvider>
   );
 }
     
-function AppBody({ workouts, setWorkouts, exerciseOptions, setExerciseOptions, handleLogout }) {
-  const { user } = useAuth();
+function AppBody({ workouts, setWorkouts, exerciseOptions, setExerciseOptions }) {
+  const { user, setUser } = useAuth();
+  
 
+  const handleLogout = async () => {
+    try {
+      console.log("trying to logout")
+      await signOut(auth);
+      setUser(null); // Clear the user
+      localStorage.removeItem('workouts'); // Optionally clear local storage
+      setWorkouts({});
+  
+    } catch (error) {
+    console.error("Logout error: ", error);
+  };
+  }
+
+  // everytime user changes
   useEffect(() => {
-    let isMounted = true;
-
-    async function fetchWorkouts () {
-      console.log(user)
-      if (user && isMounted) {
-        setWorkouts({});
-            // get from db
+    const fetchWorkouts = async () => {
+      if (user) {
+            // get from db if no local data
             const docRef = doc(firestore, 'users', user.uid);
             const docSnap = await getDoc(docRef);
-            console.log('DocSnap exists?', docSnap);
-            
-            // Checks if the document exists and if it does, sets the workouts to the data stored in the document. 
-            // This assumes that the entire workout data is stored under this document.
+          
             if (docSnap.exists()) {
-              setWorkouts(docSnap.data().workouts); // Assuming the entire workout data is stored under this document
-              console.log('docSnap.data()', docSnap.data());
-              console.log('Workout data updated?', workouts);
+              setWorkouts(docSnap.data().workouts || {});
+              console.log("this happened");
+            } else {
+              setWorkouts({});
             }
-          } else if (!user) {
-                  //Load from localStorage and parse or fallback to an empty object
-                  const savedWorkouts = localStorage.getItem('workouts');
-                  setWorkouts(savedWorkouts ? JSON.parse(savedWorkouts) : {});
-            }
-        }
-        
+        } 
+    }; 
         fetchWorkouts();
-        return () => { isMounted = false };
-      }, [user]);   
+    }, [user]);   
 
-  // This updates localStorage or db when workouts state changes
+  // Save workouts to Firestore when logged in or workouts change
   useEffect(() => {
-    const savedWorkouts = async () => {
-
+    const saveWorkoutsToFirestore = async () => {
       if (user && workouts && Object.keys(workouts).length > 0) {
-        try {
-          const userWorkoutsRef = doc(firestore, 'users', user.uid);
-          await setDoc(userWorkoutsRef, { workouts })
-        } catch (error) {
-          console.error("Error writing to Firestore: ", error);
-        }
-      } else if (!user) {
-          localStorage.setItem('workouts', JSON.stringify(workouts));
+        const userWorkoutsRef = doc(firestore, 'users', user.uid);
+        await setDoc(userWorkoutsRef, { workouts });
       }
-    } 
-    
-    savedWorkouts();
-    
-  }, [workouts, user]);
+    };
+    if (user) {
+      saveWorkoutsToFirestore();
+    }
+  }, [workouts]);
 
+  // Handling local storage for non-logged-in users
   useEffect(() => {
-    localStorage.setItem('exerciseOptions', JSON.stringify(exerciseOptions));
-  }, [exerciseOptions]);
+    if (!user) {
+      localStorage.setItem('workouts', JSON.stringify(workouts));
+    }
+  }, [workouts]);
 
   return (
     <div className="App">
       <header className="App-header">
           <div className='app-wrapper'>
               <Router>
-                <Header handleLogout={handleLogout} />
+                <Header 
+                  handleLogout={handleLogout}
+                  user={user}
+                />
                 <Suspense fallback={<div>Loading...</div>}>
                   <Routes>
                     {/* Render Exercise and WorkoutTracker on the root path */}
