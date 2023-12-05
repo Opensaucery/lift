@@ -2,7 +2,7 @@ import './App.css';
 import React, { useEffect, useState, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { AuthProvider, useAuth } from './components/auth/UserContext';
-import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { doc, setDoc, getDoc, updateDoc } from 'firebase/firestore';
 import { firestore } from './Firebase';
 import { signOut } from 'firebase/auth';
 import Header from './components/Header';
@@ -24,6 +24,7 @@ function App() {
   });
   const [exerciseOptions, setExerciseOptions] = useState(() => {
     const savedOptions = localStorage.getItem('exerciseOptions');
+    console.log("this is ", savedOptions);
     return savedOptions ? JSON.parse(savedOptions) : ['Pushup', 'Biceps', 'Squat'];
   })
   
@@ -49,8 +50,10 @@ function AppBody({ workouts, setWorkouts, exerciseOptions, setExerciseOptions })
       console.log("trying to logout")
       await signOut(auth);
       setUser(null); // Clear the user
-      localStorage.removeItem('workouts'); // Optionally clear local storage
+      localStorage.removeItem('workouts'); // Clear local storage
+      localStorage.removeItem('exerciseOptions'); // Clear local storage
       setWorkouts({});
+      setExerciseOptions(['Pushup', 'Biceps', 'Squat']);
   
     } catch (error) {
     console.error("Logout error: ", error);
@@ -67,32 +70,40 @@ function AppBody({ workouts, setWorkouts, exerciseOptions, setExerciseOptions })
           
             if (docSnap.exists()) {
               setWorkouts(docSnap.data().workouts || {});
-              console.log("this happened");
-            } else {
-              setWorkouts({});
-            }
+              setExerciseOptions(docSnap.data().exerciseOptions || ['Pushup', 'Biceps', 'Squat']);
+            } 
         } 
     }; 
         fetchWorkouts();
     }, [user]);   
 
-  // Save workouts to Firestore when logged in or workouts change
+  // Save workouts to Firestore when workouts change and logged in
   useEffect(() => {
     const saveWorkoutsToFirestore = async () => {
       if (user && workouts && Object.keys(workouts).length > 0) {
         const userWorkoutsRef = doc(firestore, 'users', user.uid);
-        await setDoc(userWorkoutsRef, { workouts });
+        await updateDoc(userWorkoutsRef, { workouts });
       }
     };
+
+    const saveExerciseOptionsToFirestore = async () => {
+      if (user && exerciseOptions && exerciseOptions.length > 0) {
+        const userExerciseOptionsRef = doc(firestore, 'users', user.uid);
+        await updateDoc(userExerciseOptionsRef, { exerciseOptions });
+      }
+    }
+
     if (user) {
       saveWorkoutsToFirestore();
+      saveExerciseOptionsToFirestore();
     }
-  }, [workouts]);
+  }, [workouts, exerciseOptions]);
 
   // Handling local storage for non-logged-in users
   useEffect(() => {
     if (!user) {
       localStorage.setItem('workouts', JSON.stringify(workouts));
+      localStorage.setItem('exerciseOptions', JSON.stringify(exerciseOptions));
     }
   }, [workouts]);
 

@@ -21,10 +21,16 @@ const SignUp = () => {
       navigate('/'); // Navigate to the dashboard or home page after sign up
     
       // Check for existing local storage data
-      const localData = localStorage.getItem('workouts');
-      if (localData) {
-        const userData = JSON.parse(localData);
+      const workoutsData = localStorage.getItem('workouts');
+      const exerciseOptionsData = localStorage.getItem('exerciseOptions');
+      if (workoutsData || exerciseOptionsData) {
+        const userData = {
+          workouts: workoutsData ? JSON.parse(workoutsData) : null,
+          exerciseOptions: exerciseOptionsData ? JSON.parse(exerciseOptionsData) : null,
+        };
+        
         console.log("Attempting to write to Firestore: ", userData); // Make sure this line logs
+        
         if(userData) {
           console.log("User data from localStorage: ", userData);
           // Migrate local data to user's account in Firestore
@@ -35,7 +41,8 @@ const SignUp = () => {
             console.error("Error writing to Firestore: ", error);
           } 
         // Clear local storage
-        // localStorage.removeItem('workoutData');
+        // localStorage.removeItem('workouts'); // eventually uncomment these?
+        // localStorage.removeItem('exerciseOptions');
         } else {
           console.log("No user data found in localStorage")
         }
