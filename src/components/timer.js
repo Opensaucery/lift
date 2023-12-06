@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyledNumberInput, TimerValueButton } from './GlobalStyles';
+import { StyledNumberInput, TimerValueButton, GlobalStyle } from './GlobalStyles';
 
 const Timer = ({ initialTime, onTimerEnd }) => {
     const [time, setTime] = useState(initialTime);
@@ -42,7 +42,8 @@ const Timer = ({ initialTime, onTimerEnd }) => {
     }
 
     return (
-        <div>
+        <div className='timer'>
+            <GlobalStyle />
             {editable ? (
                 <div>
                     <StyledNumberInput

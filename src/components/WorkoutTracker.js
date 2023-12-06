@@ -18,21 +18,29 @@ const PreviousWorkouts = ({ workouts }) => {
     // Convert the workouts object into an array
     const workoutDates = workouts ? Object.keys(workouts).sort().reverse() :[];
 
+    
+    
     return (
         <div>
-            {workoutDates.map(date => (
-                <div key={date}>
-                    <h3>Workout for {date}</h3>
-                    {workouts[date].map((exercise, index) => (
-                        <div key={index}>
-                            <h4>{exercise.exercise}</h4>
-                            {exercise.sets.map((set, indexSet) => (
-                                <div key={indexSet}>Set {set.setNumber}: {set.reps} reps</div>
-                            ))}
-                        </div>
-                    ))}
-                </div>
-            ))}
+            {workoutDates.map(date => {
+                // Convert date format
+                const formatDate = new Date(date).toLocaleDateString('en-GB');
+                return (
+                    <div key={date}>
+                        <h2>Workout for {formatDate}</h2>
+                        {workouts[date].map((exercise, index) => (
+                            <div key={index}>
+                                <h3>{exercise.exercise}</h3>
+                                <div className="prev-workouts">
+                                    {exercise.sets.map((set, indexSet) => (
+                                        <div key={indexSet}>Set {set.setNumber}: {set.reps} reps</div>
+                                        ))}
+                                    </div>
+                            </div>
+                        ))}
+                    </div>
+                )
+            })}
         </div>
     );
 };

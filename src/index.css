@@ -1,3 +1,7 @@
+* {
+  text-align: left;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -10,4 +14,33 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 4.2rem;
+  line-height: 100%;
+
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.4rem;
+}
+
+label {
+  font-size: 1.1rem;
+}
+
+.prev-workouts {
+  font-size: 1.1rem;
 }

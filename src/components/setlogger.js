@@ -16,22 +16,32 @@ const SetLogger = ({ setNumber, onLogSet, initialReps, onTimerReset }) => {
     onTimerReset(); // Trigger a timer reset
     setReps(0); // Reset the rep count after logging the set
   };
+
+  const handleFocus = (event) => event.target.select();
  
   // Update the reps state if initialReps changes (this may happen if the parent component updates the initialReps)
   useEffect(() => {
     setReps(initialReps);
   }, [initialReps]);
 
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleLogSet();
+    }
+  };
+
   return (
     <div className='set-log'>
         <GlobalStyle />
         <label>Set #{setNumber}</label>
-        <StyledNumberInput
-            type="number"
-            value={reps}
-            onChange={(e) => setReps(Number(e.target.value))}
-            min="0"
-        />
+          <StyledNumberInput
+                type="number"
+                value={reps}
+                onFocus={handleFocus}
+                onChange={(e) => setReps(Number(e.target.value))}
+                onKeyDown={handleKeyPress}
+                min="0"
+            />
         <IncrementButton onClick={increment}>+</IncrementButton>
         <DecrementButton onClick={decrement} min="0">-</DecrementButton>
         <Button primary onClick={handleLogSet}>Log Set</Button>

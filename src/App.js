@@ -111,34 +111,36 @@ function AppBody({ workouts, setWorkouts, exerciseOptions, setExerciseOptions })
     <div className="App">
       <header className="App-header">
           <div className='app-wrapper'>
-              <Router>
-                <Header 
-                  handleLogout={handleLogout}
-                  user={user}
-                />
-                <Suspense fallback={<div>Loading...</div>}>
-                  <Routes>
-                    {/* Render Exercise and WorkoutTracker on the root path */}
-                    <Route
-                      path="/"
-                      element={
-                        <>
-                          <Exercise 
-                            workouts={workouts} 
-                            setWorkouts={setWorkouts} 
-                            exerciseOptions={exerciseOptions} 
-                            setExerciseOptions={setExerciseOptions}
-                          />
-                          <WorkoutTracker workouts={workouts} />
-                        </>
-                      }
+                <Router>
+                  <Header 
+                    handleLogout={handleLogout}
+                    user={user}
                     />
-                    {/* <Route exact path='/' component={HomePage} /> */}
-                    <Route path='/login' element={<LoginPage />} />
-                    <Route path='/signup' element={<SigninPage />} />
-                  </Routes>
-                </Suspense>
-              </Router>
+                  <div className='container'>
+                  <Suspense fallback={<div>Loading...</div>}>
+                    <Routes>
+                      {/* Render Exercise and WorkoutTracker on the root path */}
+                      <Route
+                        path="/"
+                        element={
+                          <>
+                            <Exercise 
+                              workouts={workouts} 
+                              setWorkouts={setWorkouts} 
+                              exerciseOptions={exerciseOptions} 
+                              setExerciseOptions={setExerciseOptions}
+                              />
+                            <WorkoutTracker workouts={workouts} />
+                          </>
+                        }
+                        />
+                      {/* <Route exact path='/' component={HomePage} /> */}
+                      <Route path='/login' element={<LoginPage />} />
+                      <Route path='/signup' element={<SigninPage />} />
+                    </Routes>
+                  </Suspense>
+                  </div>
+                </Router>
           </div>
       </header>
     </div>

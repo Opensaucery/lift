@@ -84,23 +84,23 @@ const Exercise = ({ workouts, setWorkouts, exerciseOptions, setExerciseOptions }
     return (
         <div>
             <GlobalStyle />
-                    <h2>Log your exercise</h2>
+                    <h1>Log your exercise</h1>
                     
-                    {/* ComboBox for selecting or typing in exercise type */}
-                    <select
-                        value={exerciseType}
-                        onChange={handleDropdownChange}
-                    >
-                        {exerciseOptions.map((option, index ) => (
-                            <option key={index} value={option}>{option}</option>
-                            ))}
-                    </select>
-                    <input 
-                        type='text'
-                        value={inputValue}
-                        onChange={handleInputChange}
-                        placeholder='Or type a new exercise'
-                    />
+                            {/* ComboBox for selecting or typing in exercise type */}
+                            <select
+                                value={exerciseType}
+                                onChange={handleDropdownChange}
+                            >
+                                {exerciseOptions.map((option, index ) => (
+                                    <option key={index} value={option}>{option}</option>
+                                    ))}
+                            </select>
+                            <input 
+                                type='text'
+                                value={inputValue}
+                                onChange={handleInputChange}
+                                placeholder='Or add a new exercise'
+                            />
 
                     {sets.map((set, index) => (
                         <SetLogger
@@ -117,7 +117,7 @@ const Exercise = ({ workouts, setWorkouts, exerciseOptions, setExerciseOptions }
                         onTimerEnd={onTimerEnd}
                         />
                     ) : (
-                        <>
+                        <div className='timer'>
                             <StyledNumberInput
                                 type="number"
                                 value={timerDuration}
@@ -127,7 +127,7 @@ const Exercise = ({ workouts, setWorkouts, exerciseOptions, setExerciseOptions }
 
                         
                             <Button onClick={restartTimer}>Start Timer</Button>
-                        </>
+                        </div>
                     )}
         </div>
     );

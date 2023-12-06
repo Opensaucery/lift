@@ -7,23 +7,25 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   .App-header {
-    width: auto;
     min-width: 50vw;
-    padding: 5vw
+    padding: auto;
   }
   
   input {
-    margin: 0 20px;
     padding: 10px 20px;
     border-radius: 3px;
     border: none;
-    margin: 10px;
     background-color: #00000020;
-    color: #fdfdfd
+    color: #fdfdfd;
+    height: 20px;
   }
 
   .set-log {
-    display: flex
+    display: flex;
+    justify-content: start;
+    gap: 20px 10px;
+    align-items: center;
+    padding: 5px 0;
   }
 
   select {
@@ -33,6 +35,32 @@ export const GlobalStyle = createGlobalStyle`
     border-radius: 3px;
   }
   
+  a {
+    text-decoration: none;
+    color: grey;
+    font-size: 1rem;
+    padding-left: 10px;
+  }
+  
+    nav {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+  .app-wrapper {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .timer {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 20px 10px;
+  }
+
+
 `;
 
 export const StyledNumberInput = styled.input.attrs({ type: 'number' })`
@@ -45,6 +73,7 @@ export const StyledNumberInput = styled.input.attrs({ type: 'number' })`
 
   /* Custom styles for input */
   border-radius: 3px;
+  width: 40px;
 
   /* Firefox */
   &[type='number'] {
@@ -80,7 +109,7 @@ export const IncrementButton = styled.button`
   border-radius: 3px;
   font-weight: 600;
   border-width: 0;
-  margin: 0 5px;
+  
   `;
 
   export const TimerValueButton = styled.button`
@@ -114,9 +143,14 @@ export const InvisibleInput = styled.input`
   export const Button = styled.button`
     background: ${props => props.primary ? "#f6f6f6" : "#010101"};
     color: ${props => props.primary ? "#010101" : "#f6f6f6"};
-    padding: 3%;
+    padding: 0 3%;
+    padding-block: 0;
     border-radius: 3px;
     border-width: 0;
+    height: 40px;
+    display: flex;
+    align-items: center;
 
     
 `;
+
