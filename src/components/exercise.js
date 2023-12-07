@@ -79,6 +79,8 @@ const Exercise = ({ workouts, setWorkouts, exerciseOptions, setExerciseOptions }
         // Logic for what happens when the timer ends
         setIsTimerActive(false);
     };
+
+    const handleFocus = (event) => event.target.select();
     
     
     return (
@@ -121,6 +123,7 @@ const Exercise = ({ workouts, setWorkouts, exerciseOptions, setExerciseOptions }
                             <StyledNumberInput
                                 type="number"
                                 value={timerDuration}
+                                onFocus={handleFocus}
                                 onChange={(e) => setTimerDuration(Number(e.target.value))}
                                 min="1"
                                 />

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Button, StyledLink } from './GlobalStyles';
 
 const Header = ({ handleLogout, user }) => {
 
@@ -8,11 +8,11 @@ const Header = ({ handleLogout, user }) => {
         {/* Other navigation items... */}
         {!user && (
           <>
-            <Link to="/login">Login</Link>
-            <Link to="/signup" style={{ marginLeft: '10px' }}>Sign Up</Link>
+            <StyledLink to="/login">Login</StyledLink>
+            <StyledLink to="/signup" style={{ marginLeft: '10px' }}>Sign Up</StyledLink>
           </>
         )}
-        {user && <button onClick={handleLogout}>Logout</button>}
+        {user && <Button onClick={handleLogout}>Logout</Button>}
       </nav>
     );
   };

@@ -41,6 +41,12 @@ const Timer = ({ initialTime, onTimerEnd }) => {
         setEditable(false);
     }
 
+    const handleFocus = (event) => {
+        event.persist(); // This removes the event from the pool and allows references to the event to be retained asynchronously
+        console.log("Input focused");
+        event.target.select();
+    }
+
     return (
         <div className='timer'>
             <GlobalStyle />
@@ -49,6 +55,7 @@ const Timer = ({ initialTime, onTimerEnd }) => {
                     <StyledNumberInput
                         type="number"
                         value={userInputTime}
+                        onFocus={handleFocus}
                         onChange={(e) => setUserInputTime(Number(e.target.value))}
                         // min="0"
                         // max="300"

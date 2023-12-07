@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled, { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
@@ -140,17 +141,26 @@ export const InvisibleInput = styled.input`
   }`
 
 
-  export const Button = styled.button`
-    background: ${props => props.primary ? "#f6f6f6" : "#010101"};
-    color: ${props => props.primary ? "#010101" : "#f6f6f6"};
-    padding: 0 3%;
-    padding-block: 0;
-    border-radius: 3px;
-    border-width: 0;
-    height: 40px;
-    display: flex;
-    align-items: center;
-
-    
+export const Button = styled.button`
+  background: ${props => props.primary ? "#f6f6f6" : "#010101"};
+  color: ${props => props.primary ? "#010101" : "#f6f6f6"};
+  padding: 0 3%;
+  padding-block: 0;
+  border-radius: 3px;
+  border-width: 0;
+  height: 40px;
+  display: flex;
+  align-items: center;  
 `;
 
+export const StyledLink = styled(Link)`
+
+  text-decoration: none;
+  color: grey;
+  font-size: 1rem;
+  padding-left: 10px;
+
+    display: flex;
+    justify-content: flex-end;
+
+`

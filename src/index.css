@@ -44,3 +44,21 @@ label {
 .prev-workouts {
   font-size: 1.1rem;
 }
+
+.btn-plusminus {
+  background-color: rgba(242, 242, 242, 0.696);
+}
+
+.user-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: start;
+  align-items: flex-start;
+  width: auto;
+}
+
+.increment-decrement {
+  display: flex;
+  gap: 5px;
+}

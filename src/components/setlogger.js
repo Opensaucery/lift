@@ -42,8 +42,10 @@ const SetLogger = ({ setNumber, onLogSet, initialReps, onTimerReset }) => {
                 onKeyDown={handleKeyPress}
                 min="0"
             />
-        <IncrementButton onClick={increment}>+</IncrementButton>
-        <DecrementButton onClick={decrement} min="0">-</DecrementButton>
+        <div className='increment-decrement'>
+          <IncrementButton className='btn-plusminus' onClick={increment}>+</IncrementButton>
+          <DecrementButton className='btn-plusminus' onClick={decrement} min="0">-</DecrementButton>
+        </div>
         <Button primary onClick={handleLogSet}>Log Set</Button>
       </div>
   );

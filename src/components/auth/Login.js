@@ -41,7 +41,7 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <div className='user-form'>
       <h1>Login</h1>
       <label htmlFor="email">Email</label>
       <input 

@@ -4,6 +4,7 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth, firestore } from '../../Firebase';
 import { AuthContext } from './UserContext';
 import { collection, doc, setDoc } from 'firebase/firestore'; // Import Firestore methods
+import { Button } from '../GlobalStyles';
 
 const SignUp = () => {
   const [email, setEmail] = useState('');
@@ -70,7 +71,7 @@ const SignUp = () => {
   return (
     <div>
       <h1>Sign Up</h1>
-      <form onSubmit={handleSignUp}>
+      <form className='user-form' onSubmit={handleSignUp}>
       <label htmlFor="new-email">Email</label>
         <input 
           id="new-email"
@@ -91,7 +92,7 @@ const SignUp = () => {
           onChange={(e) => setPassword(e.target.value)} 
           placeholder="Password" 
         />
-        <button type="submit">Sign Up</button>
+        <Button type="submit">Sign Up</Button>
         {signInError && <p style={{ color: 'grey' }}>{signInError}</p>} {/* Display the error message */}
       </form>
     </div>
