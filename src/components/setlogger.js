@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { InvisibleInput, StyledNumberInput, IncrementButton, DecrementButton } from './GlobalStyles';
 import { Button, GlobalStyle } from './GlobalStyles';
 
-const SetLogger = ({ setNumber, onLogSet, initialReps, onTimerReset }) => {
+const SetLogger = ({ setNumber, onLogSet, initialReps, onTimerReset, isCurrentSet }) => {
   const [reps, setReps] = useState(0);
 
    // increment and decrement button functions
@@ -34,19 +34,20 @@ const SetLogger = ({ setNumber, onLogSet, initialReps, onTimerReset }) => {
     <div className='set-log'>
         <GlobalStyle />
         <label>Set #{setNumber}</label>
-          <StyledNumberInput
-                type="number"
-                value={reps}
-                onFocus={handleFocus}
-                onChange={(e) => setReps(Number(e.target.value))}
-                onKeyDown={handleKeyPress}
-                min="0"
-            />
-        <div className='increment-decrement'>
-          <IncrementButton className='btn-plusminus' onClick={increment}>+</IncrementButton>
-          <DecrementButton className='btn-plusminus' onClick={decrement} min="0">-</DecrementButton>
-        </div>
-        <Button primary onClick={handleLogSet}>Log Set</Button>
+            <StyledNumberInput
+                    type="number"
+                    value={reps}
+                    onFocus={handleFocus}
+                    onChange={(e) => setReps(Number(e.target.value))}
+                    onKeyDown={handleKeyPress}
+                    min="0"
+                    />
+            <div className='increment-decrement'>
+              <IncrementButton className='btn-plusminus' onClick={increment}>+</IncrementButton>
+              <DecrementButton className='btn-plusminus' onClick={decrement} min="0">-</DecrementButton>
+            </div>
+            <Button primary onClick={handleLogSet}>Log Set</Button>
+        
       </div>
   );
 };

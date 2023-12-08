@@ -81,6 +81,8 @@ const Exercise = ({ workouts, setWorkouts, exerciseOptions, setExerciseOptions }
     };
 
     const handleFocus = (event) => event.target.select();
+
+    const currentSetNumber = sets.length;
     
     
     return (
@@ -104,15 +106,17 @@ const Exercise = ({ workouts, setWorkouts, exerciseOptions, setExerciseOptions }
                                 placeholder='Or add a new exercise'
                             />
 
-                    {sets.map((set, index) => (
-                        <SetLogger
-                        key={set.setNumber}
-                        setNumber={set.setNumber}
-                        initialReps={set.reps}
-                        onLogSet={(reps) => onLogSet(set.setNumber, reps)} // Pass reps to onLogSet correctly
-                        onTimerReset={restartTimer}
-                        />
-                        ))}
+                    {
+                        sets.length > 0 && (
+                            <SetLogger
+                            key={currentSetNumber}
+                            setNumber={currentSetNumber}
+                            initialReps={sets[sets.length - 1].reps}
+                            onLogSet={(reps) => onLogSet(currentSetNumber, reps)} // Pass reps to onLogSet correctly
+                            onTimerReset={restartTimer}
+                            />
+                        )
+                    }
                     {isTimerActive ? (
                         <Timer 
                         initialTime={timerDuration}
