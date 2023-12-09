@@ -3,12 +3,14 @@ import React, { useEffect, useState, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { AuthProvider, useAuth } from './components/auth/UserContext';
 import { doc, setDoc, getDoc, updateDoc } from 'firebase/firestore';
-import { firestore } from './Firebase';
+import { firestore, analytics } from './Firebase';
 import { signOut } from 'firebase/auth';
+import { auth } from './Firebase'
+
+import { ConsentBanner } from './components/ConsentBanner';
 import Header from './components/Header';
 import Exercise from './components/exercise';
 import WorkoutTracker from './components/WorkoutTracker';
-import { auth } from './Firebase'
 
 
 // only load when clicked
@@ -42,9 +44,35 @@ function App() {
 }
     
 function AppBody({ workouts, setWorkouts, exerciseOptions, setExerciseOptions }) {
-  const { user, setUser } = useAuth();
   
+  
+  const { user, setUser } = useAuth();
+  const [consent, setConsent] = useState(false);
 
+  // CONSENT
+  useEffect(() => {
+    // Check if the user has already given consent
+    const userConsent = localStorage.getItem('userConsent');
+    if (userConsent) {
+      setConsent(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (consent) {
+      // Initialize analytics if consent is given
+      analytics();
+      // Store the user's consent in localStorage
+      localStorage.setItem('userConsent', 'true');
+    }
+  }, [consent]);
+
+  const handleConsent = () => {
+    // This function is called when the user clicks "I agree"
+    setConsent(true);
+  };
+
+  // LOGOUT    
   const handleLogout = async () => {
     try {
       console.log("trying to logout")
@@ -60,6 +88,7 @@ function AppBody({ workouts, setWorkouts, exerciseOptions, setExerciseOptions })
   };
   }
 
+  // DATA STORAGE
   // everytime user changes
   useEffect(() => {
     const fetchWorkouts = async () => {
@@ -101,16 +130,18 @@ function AppBody({ workouts, setWorkouts, exerciseOptions, setExerciseOptions })
 
   // Handling local storage for non-logged-in users
   useEffect(() => {
-    if (!user) {
+    if (!user && consent) {
       localStorage.setItem('workouts', JSON.stringify(workouts));
       localStorage.setItem('exerciseOptions', JSON.stringify(exerciseOptions));
     }
-  }, [workouts]);
+  }, [workouts, consent]);
+  
 
   return (
     <div className="App">
       <header className="App-header">
           <div className='app-wrapper'>
+              {!consent && <ConsentBanner onConsent={handleConsent} />}
                 <Router>
                   <Header 
                     handleLogout={handleLogout}
