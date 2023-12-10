@@ -92,6 +92,7 @@ const SignUp = () => {
           onChange={(e) => setPassword(e.target.value)} 
           placeholder="Password" 
         />
+        <p>By signing up you agree to your data being stored on our secure servers</p>
         <Button type="submit">Sign Up</Button>
         {signInError && <p style={{ color: 'grey' }}>{signInError}</p>} {/* Display the error message */}
       </form>

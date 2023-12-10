@@ -36,12 +36,7 @@ export const GlobalStyle = createGlobalStyle`
     border-radius: 3px;
   }
   
-  a {
-    text-decoration: none;
-    color: grey;
-    font-size: 1rem;
-    padding-left: 10px;
-  }
+ 
   
     nav {
       display: flex;

@@ -11,6 +11,8 @@ import { ConsentBanner } from './components/ConsentBanner';
 import Header from './components/Header';
 import Exercise from './components/exercise';
 import WorkoutTracker from './components/WorkoutTracker';
+import PrivacyPolicy from './components/PrivacyPolicy';
+import Footer from './components/Footer';
 
 
 // only load when clicked
@@ -47,15 +49,24 @@ function AppBody({ workouts, setWorkouts, exerciseOptions, setExerciseOptions })
   
   
   const { user, setUser } = useAuth();
-  const [consent, setConsent] = useState(false);
-
+  
   // CONSENT
+
+// This code uses the useState hook to set the initial value of the 'consent' variable. The initial value is determined by checking the value of the 'userConsent' item in localStorage. If the value is 'true', the initial value of 'consent' is set to true, otherwise it is set to false.
+  const [consent, setConsent] = useState(() => {
+    const userConsent = localStorage.getItem('userConsent');
+    return userConsent === 'true';
+  });
+
+  const [showConsentBanner, setShowConsentBanner] = useState(() => {
+    return !localStorage.getItem('userConsent');
+  
+  });
+
   useEffect(() => {
     // Check if the user has already given consent
     const userConsent = localStorage.getItem('userConsent');
-    if (userConsent) {
-      setConsent(true);
-    }
+    setConsent(userConsent === 'true');
   }, []);
 
   useEffect(() => {
@@ -66,11 +77,21 @@ function AppBody({ workouts, setWorkouts, exerciseOptions, setExerciseOptions })
       localStorage.setItem('userConsent', 'true');
     }
   }, [consent]);
-
+  
   const handleConsent = () => {
     // This function is called when the user clicks "I agree"
     setConsent(true);
+    setShowConsentBanner(false);
   };
+  
+  const handleReject = () => {
+    setConsent(false);
+    setShowConsentBanner(false);
+    console.log("handleReject");
+    localStorage.setItem('userConsent', 'false');
+    localStorage.removeItem('workouts');
+    localStorage.removeItem('exerciseOptions');
+  }
 
   // LOGOUT    
   const handleLogout = async () => {
@@ -141,7 +162,7 @@ function AppBody({ workouts, setWorkouts, exerciseOptions, setExerciseOptions })
     <div className="App">
       <header className="App-header">
           <div className='app-wrapper'>
-              {!consent && <ConsentBanner onConsent={handleConsent} />}
+              {showConsentBanner && <ConsentBanner onConsent={handleConsent} onReject={handleReject} />}
                 <Router>
                   <Header 
                     handleLogout={handleLogout}
@@ -168,9 +189,11 @@ function AppBody({ workouts, setWorkouts, exerciseOptions, setExerciseOptions })
                       {/* <Route exact path='/' component={HomePage} /> */}
                       <Route path='/login' element={<LoginPage />} />
                       <Route path='/signup' element={<SigninPage />} />
+                      <Route path='/privacy-policy' element={<PrivacyPolicy />} />
                     </Routes>
                   </Suspense>
                   </div>
+                  <Footer />
                 </Router>
           </div>
       </header>

@@ -62,3 +62,20 @@ label {
   display: flex;
   gap: 5px;
 }
+
+a {
+  text-decoration: none;
+  color: grey;
+  font-size: 1rem;
+}
+
+p a {
+  font-size: inherit;
+  color: inherit;
+  padding: 0;
+}
+
+.privacy-policy {
+  padding: 10%;
+  line-height: 1.6;
+}
