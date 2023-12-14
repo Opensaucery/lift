@@ -20,6 +20,7 @@ code {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  min-width: 50%;
   margin: 0 auto;
 }
 
@@ -54,8 +55,18 @@ label {
   flex-direction: column;
   gap: 10px;
   justify-content: start;
-  align-items: flex-start;
+  align-items: stretch;
   width: auto;
+}
+
+.user-form input {
+  height: 30px;
+  border-radius: 4px;
+}
+
+.auth-btn {
+  align-self: flex-start;
+  padding: 0 50px;
 }
 
 .increment-decrement {
@@ -78,4 +89,19 @@ p a {
 .privacy-policy {
   padding: 10%;
   line-height: 1.6;
+}
+
+.app-wrapper {
+  width: 90%;
+  display: flex;
+  align-items: stretch;
+  flex-direction: column;
+}
+
+nav {
+  padding: 2% 5%;
+}
+
+footer {
+  padding: 20% 5%;
 }

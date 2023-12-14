@@ -22,6 +22,8 @@
   justify-content: center;
   font-size: 1.2rem;
   color: white;
+  padding: 5%;
+  min-width: 50%;
 }
 
 .App-link {

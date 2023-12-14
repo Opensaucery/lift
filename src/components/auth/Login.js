@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'; // Import from react-router-dom 
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../Firebase';
 import { AuthContext } from './UserContext';
-
+import { Button } from '../GlobalStyles';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -61,7 +61,7 @@ const Login = () => {
         onChange={(e) => setPassword(e.target.value)} 
         // placeholder="Password" 
       />
-      <button onClick={handleLogin}>Login</button>
+      <Button className='auth-btn' onClick={handleLogin}>Login</Button>
       {loginError && <p style={{ color: 'grey' }}>{loginError}</p>} {/* Display the error message */}
     </div>
   );

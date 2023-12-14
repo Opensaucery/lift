@@ -53,6 +53,9 @@ const Exercise = ({ workouts, setWorkouts, exerciseOptions, setExerciseOptions }
             sets: [{ setNumber, reps: newReps }],
           };
           todayWorkouts.push(exerciseLogged);
+
+          //Reset sets state to start from set number 1 for new exercise type
+          setSets([{ setNumber: 1, reps: 0 }]);
         }
       
         // Update the state with the new or updated workout entry

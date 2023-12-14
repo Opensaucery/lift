@@ -43,11 +43,7 @@ export const GlobalStyle = createGlobalStyle`
       justify-content: flex-end;
     }
 
-  .app-wrapper {
-    width: 90%;
-    display: flex;
-    flex-direction: column;
-  }
+ 
 
   .timer {
     display: flex;
@@ -137,15 +133,21 @@ export const InvisibleInput = styled.input`
 
 
 export const Button = styled.button`
-  background: ${props => props.primary ? "#f6f6f6" : "#010101"};
+  background: ${props => props.primary ? "#d5fb46" : "#010101"};
   color: ${props => props.primary ? "#010101" : "#f6f6f6"};
-  padding: 0 3%;
+  padding: 0 5%;
   padding-block: 0;
   border-radius: 3px;
   border-width: 0;
   height: 40px;
   display: flex;
-  align-items: center;  
+  align-items: center;
+  font-weight: 700;
+  cursor: pointer;
+  &:hover {
+    background-color: #0C7489;
+    color: #f6f6f6;
+  }  
 `;
 
 export const StyledLink = styled(Link)`
