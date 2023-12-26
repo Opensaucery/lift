@@ -54,7 +54,7 @@ label {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: stretch;
   width: auto;
 }
@@ -103,5 +103,5 @@ nav {
 }
 
 footer {
-  padding: 20% 5%;
+  padding-top: 10%;
 }

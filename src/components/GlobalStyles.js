@@ -90,6 +90,7 @@ export const IncrementButton = styled.button`
   border-radius: 3px;
   font-weight: 600;
   border-width: 0;
+  cursor: pointer;
   `;
   
   export const DecrementButton = styled.button`
@@ -101,6 +102,7 @@ export const IncrementButton = styled.button`
   border-radius: 3px;
   font-weight: 600;
   border-width: 0;
+  cursor: pointer;
   
   `;
 

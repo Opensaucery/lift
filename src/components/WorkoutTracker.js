@@ -33,7 +33,8 @@ const PreviousWorkouts = ({ workouts }) => {
                                 <h3>{exercise.exercise}</h3>
                                 <div className="prev-workouts">
                                     {exercise.sets.map((set, indexSet) => (
-                                        <div key={indexSet}>Set {set.setNumber}: {set.reps} reps</div>
+                                        <div key={indexSet}>
+                                            Set {set.setNumber}: {set.reps} reps{set.weight && `, ${set.weight}kg`}</div>
                                         ))}
                                     </div>
                             </div>

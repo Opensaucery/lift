@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import { InvisibleInput, StyledNumberInput, IncrementButton, DecrementButton } from './GlobalStyles';
+import { StyledNumberInput, IncrementButton, DecrementButton } from './GlobalStyles';
 import { Button, GlobalStyle } from './GlobalStyles';
 
-const SetLogger = ({ setNumber, onLogSet, initialReps, onTimerReset, isCurrentSet }) => {
+const SetLogger = ({ setNumber, onLogSet, initialReps, initialWeight, onTimerReset, isCurrentSet }) => {
   const [reps, setReps] = useState(0);
+  const [weight, setWeight] = useState(initialWeight || 0);
 
    // increment and decrement button functions
    const increment = () => setReps((prevReps) => prevReps + 1);
@@ -12,7 +12,7 @@ const SetLogger = ({ setNumber, onLogSet, initialReps, onTimerReset, isCurrentSe
 
   // Function to log a set
   const handleLogSet = () => {
-    onLogSet(reps); // Logs the set with the current number of reps
+    onLogSet(reps, weight); // Logs the set with the current number of reps and weight
     onTimerReset(); // Trigger a timer reset
     setReps(0); // Reset the rep count after logging the set
   };
@@ -42,10 +42,23 @@ const SetLogger = ({ setNumber, onLogSet, initialReps, onTimerReset, isCurrentSe
                     onKeyDown={handleKeyPress}
                     min="0"
                     />
+                    reps
             <div className='increment-decrement'>
               <IncrementButton className='btn-plusminus' onClick={increment}>+</IncrementButton>
               <DecrementButton className='btn-plusminus' onClick={decrement} min="0">-</DecrementButton>
             </div>
+            <br></br>
+            <div></div>
+            <br></br>
+            <StyledNumberInput
+                    type="number"
+                    value={weight}
+                    onFocus={handleFocus}
+                    onChange={(e) => setWeight(Number(e.target.value))}
+                    onKeyDown={handleKeyPress}
+                    min="0"
+                    />
+                    kg
             <Button primary onClick={handleLogSet}>Log Set</Button>
         
       </div>

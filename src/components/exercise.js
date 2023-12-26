@@ -19,13 +19,13 @@ const Exercise = ({ workouts, setWorkouts, exerciseOptions, setExerciseOptions }
         setInputValue(e.target.value); // Update the input field to match the selection
     }
 
-    const [sets, setSets] = useState([{ setNumber: 1, reps: 0}]);
+    const [sets, setSets] = useState([{ setNumber: 1, reps: 0, weight: 0}]);
     const [isTimerActive, setIsTimerActive] = useState(false);
        
     const initialTime = 60; // Set this to whatever your initial time should be
     const [timerDuration, setTimerDuration] = useState(initialTime);
     
-    const onLogSet = (setNumber, newReps) => {
+    const onLogSet = (setNumber, newReps, newWeight) => {
         // First, find if today's date already has a workout logged
         const today = new Date().toISOString().split('T')[0];
         const todayWorkouts = workouts[today] || [];
@@ -42,15 +42,21 @@ const Exercise = ({ workouts, setWorkouts, exerciseOptions, setExerciseOptions }
 
         // Check if the current exercise already has an entry for today
         let exerciseLogged = todayWorkouts.find(ex => ex.exercise === typeToLog);
+
+        // Create the new set object
+        let newSet = { setNumber, reps: newReps };
+        if (newWeight > 0) {
+            newSet.weight = newWeight;
+        }
       
         if (exerciseLogged) {
           // If the exercise is already logged today, append the new set to it
-          exerciseLogged.sets.push({ setNumber, reps: newReps });
+          exerciseLogged.sets.push(newSet);
         } else {
           // If the exercise is not logged today, create a new entry
           exerciseLogged = {
             exercise: typeToLog, 
-            sets: [{ setNumber, reps: newReps }],
+            sets: [newSet],
           };
           todayWorkouts.push(exerciseLogged);
 
@@ -115,7 +121,8 @@ const Exercise = ({ workouts, setWorkouts, exerciseOptions, setExerciseOptions }
                             key={currentSetNumber}
                             setNumber={currentSetNumber}
                             initialReps={sets[sets.length - 1].reps}
-                            onLogSet={(reps) => onLogSet(currentSetNumber, reps)} // Pass reps to onLogSet correctly
+                            initialWeight={sets[sets.length - 1].weight || 0}
+                            onLogSet={(reps, weight) => onLogSet(currentSetNumber, reps, weight)} // Pass reps to onLogSet correctly
                             onTimerReset={restartTimer}
                             />
                         )
