@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, GlobalStyle, StyledNumberInput } from './GlobalStyles';
 import Timer from './timer';
 import SetLogger from './setlogger';
+import { unstable_useViewTransitionState } from 'react-router-dom';
 
 
 const Exercise = ({ workouts, setWorkouts, exerciseOptions, setExerciseOptions }) => {
-    const [exerciseType, setExerciseType] = useState('Pushup');
-    const [inputValue, setInputValue] = useState(''); // new stage for input field
+    const initialExerciseType = exerciseOptions.length > 0 ? exerciseOptions[0].name : '';
+    const [exerciseType, setExerciseType] = useState(initialExerciseType);
+    console.log(exerciseOptions);
+    
+    const [inputValue, setInputValue] = useState(''); // new state for input field
 
     // Function to update exercise type from input
     const handleInputChange = (e) => {
@@ -15,10 +19,18 @@ const Exercise = ({ workouts, setWorkouts, exerciseOptions, setExerciseOptions }
 
     // Function to update exercise type from dropdown
     const handleDropdownChange = (e) => {
-        setExerciseType(e.target.value);
-        setInputValue(e.target.value); // Update the input field to match the selection
-    }
-
+            const selectedOptionName = e.target.value
+            setExerciseType(selectedOptionName);
+            setInputValue(selectedOptionName); // Update the input field to match the selection
+        
+            // Find the weight for the selected exercise and update the state
+            const selectedOption = exerciseOptions.find(option => option.name === selectedOptionName);
+            if (selectedOption) {
+                const weightForSelectedExercise = selectedOption.weight || 0;
+                setSets(sets => sets.map(set => ({ ...set, weight: weightForSelectedExercise })));
+            }
+        }
+    
     const [sets, setSets] = useState([{ setNumber: 1, reps: 0, weight: 0}]);
     const [isTimerActive, setIsTimerActive] = useState(false);
        
@@ -33,12 +45,36 @@ const Exercise = ({ workouts, setWorkouts, exerciseOptions, setExerciseOptions }
         // Detemine the exercise type to log
         const typeToLog = inputValue || exerciseType;
 
-        // Update exercise options if it's a new exercise
-        if (inputValue && !exerciseOptions.includes(inputValue)) {
-            setExerciseOptions(prevOptions => [...prevOptions, inputValue]);
-            setExerciseType(inputValue);
-            setInputValue('') // Clear the input field after logging
+        // Update the weight for the exercise in exerciseOptions
+        let updatedOptions = exerciseOptions.map(option => {
+            if (option.name === typeToLog) {
+                return { ...option, weight: newWeight };
+            }
+            return option;
+        })
+
+        // Add new exercise if it does not exist
+        if (!exerciseOptions.some(option => option.name === typeToLog)) {
+            // Update the weight for the exercise in exerciseOptions
+            updatedOptions = [...updatedOptions, { name: typeToLog, weight: newWeight }]
+            };
+
+        setExerciseOptions(updatedOptions);
+
+        // Reset input field only if a new exercise was typed in
+        if (inputValue && !exerciseOptions.find(option => option.name === inputValue)) {
+            setInputValue('');
         }
+
+        // setExerciseType(inputValue);
+     
+        // if (inputValue && !exerciseOptions.includes(inputValue)) {
+        // // Update exercise options if it's a new exercise
+        //     setExerciseOptions(prevOptions => [...prevOptions, inputValue]);
+        //     setExerciseType(inputValue);
+        //     setInputValue('') // Clear the input field after logging
+        // }
+
 
         // Check if the current exercise already has an entry for today
         let exerciseLogged = todayWorkouts.find(ex => ex.exercise === typeToLog);
@@ -104,8 +140,8 @@ const Exercise = ({ workouts, setWorkouts, exerciseOptions, setExerciseOptions }
                                 value={exerciseType}
                                 onChange={handleDropdownChange}
                             >
-                                {exerciseOptions.map((option, index ) => (
-                                    <option key={index} value={option}>{option}</option>
+                                {exerciseOptions.map((option, index) => (
+                                    <option key={index} value={option.name}>{option.name}</option>
                                     ))}
                             </select>
                             <input 
@@ -118,12 +154,12 @@ const Exercise = ({ workouts, setWorkouts, exerciseOptions, setExerciseOptions }
                     {
                         sets.length > 0 && (
                             <SetLogger
-                            key={currentSetNumber}
-                            setNumber={currentSetNumber}
-                            initialReps={sets[sets.length - 1].reps}
-                            initialWeight={sets[sets.length - 1].weight || 0}
-                            onLogSet={(reps, weight) => onLogSet(currentSetNumber, reps, weight)} // Pass reps to onLogSet correctly
-                            onTimerReset={restartTimer}
+                                key={currentSetNumber}
+                                setNumber={currentSetNumber}
+                                initialReps={sets[sets.length - 1].reps}
+                                initialWeight={exerciseOptions.find(option => option.name === exerciseType)?.weight || 0}
+                                onLogSet={(reps, weight) => onLogSet(currentSetNumber, reps, weight)} // Pass reps to onLogSet correctly
+                                onTimerReset={restartTimer}
                             />
                         )
                     }
@@ -151,5 +187,3 @@ const Exercise = ({ workouts, setWorkouts, exerciseOptions, setExerciseOptions }
 };
 
 export default Exercise;
-
-  

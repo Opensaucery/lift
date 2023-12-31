@@ -24,6 +24,7 @@ export const GlobalStyle = createGlobalStyle`
   .set-log {
     display: flex;
     justify-content: start;
+    flex-wrap: wrap;
     gap: 20px 10px;
     align-items: center;
     padding: 5px 0;

@@ -29,7 +29,7 @@ function App() {
   const [exerciseOptions, setExerciseOptions] = useState(() => {
     const savedOptions = localStorage.getItem('exerciseOptions');
     console.log("this is ", savedOptions);
-    return savedOptions ? JSON.parse(savedOptions) : ['Pushup', 'Biceps', 'Squat'];
+    return savedOptions ? JSON.parse(savedOptions) : [{name: 'Pushup', weight: 0}, {name: 'Biceps', weight: 5}, {name: 'Squat', weight: 0}];
   })
   
   
@@ -157,6 +157,7 @@ function AppBody({ workouts, setWorkouts, exerciseOptions, setExerciseOptions })
     }
   }, [workouts, consent]);
   
+  console.log("Exercise Options in App:", exerciseOptions);
 
   return (
     <div className="App">
