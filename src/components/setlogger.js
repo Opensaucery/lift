@@ -18,9 +18,9 @@ const SetLogger = ({ setNumber, onLogSet, initialReps, initialWeight, onTimerRes
     
     // Google Analytics event tracking
     if (window.gtag) {
-      window.gtag('event', 'log_set', {
-          'event_category': 'Exercise',
-          'event_label': 'Log Set Clicked',
+      window.gtag('event', 'Log Set', {
+          'event_category': 'Other',
+          'event_label': '_TsfCKPR34QZELCJ39Uq',
           'value': 1 // You can customize this value
       });
     }
