@@ -15,6 +15,15 @@ const SetLogger = ({ setNumber, onLogSet, initialReps, initialWeight, onTimerRes
     onLogSet(reps, weight); // Logs the set with the current number of reps and weight
     onTimerReset(); // Trigger a timer reset
     setReps(0); // Reset the rep count after logging the set
+    
+    // Google Analytics event tracking
+    if (window.gtag) {
+      window.gtag('event', 'log_set', {
+          'event_category': 'Exercise',
+          'event_label': 'Log Set Clicked',
+          'value': 1 // You can customize this value
+      });
+    }
   };
 
   const handleFocus = (event) => event.target.select();
@@ -58,7 +67,7 @@ const SetLogger = ({ setNumber, onLogSet, initialReps, initialWeight, onTimerRes
                     onKeyDown={handleKeyPress}
                     min="0"
                     />
-                    kg
+                    kg lifted
             <Button primary onClick={handleLogSet}>Log Set</Button>
         
       </div>

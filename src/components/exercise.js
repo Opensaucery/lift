@@ -66,16 +66,6 @@ const Exercise = ({ workouts, setWorkouts, exerciseOptions, setExerciseOptions }
             setInputValue('');
         }
 
-        // setExerciseType(inputValue);
-     
-        // if (inputValue && !exerciseOptions.includes(inputValue)) {
-        // // Update exercise options if it's a new exercise
-        //     setExerciseOptions(prevOptions => [...prevOptions, inputValue]);
-        //     setExerciseType(inputValue);
-        //     setInputValue('') // Clear the input field after logging
-        // }
-
-
         // Check if the current exercise already has an entry for today
         let exerciseLogged = todayWorkouts.find(ex => ex.exercise === typeToLog);
 

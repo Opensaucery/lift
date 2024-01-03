@@ -104,4 +104,7 @@ nav {
 
 footer {
   padding-top: 10%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
 }
