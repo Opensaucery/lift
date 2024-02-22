@@ -16,12 +16,12 @@ const SetLogger = ({ setNumber, onLogSet, initialReps, initialWeight, onTimerRes
     onTimerReset(); // Trigger a timer reset
     setReps(0); // Reset the rep count after logging the set
     
+
     // Google Analytics event tracking
     if (window.gtag) {
-      window.gtag('event', 'Log set', {
-          'event_category': 'Other',
-          'event_label': '_TsfCKPR34QZELCJ39Uq',
-          'value': 0.01 // You can customize this value
+      window.gtag('event', 'conversion', {
+          'send_to': 'AW-11454104752/_TsfCKPR34QZELCJ39Uq',
+          // 'event_callback': callback
       });
     }
   };

@@ -7,6 +7,7 @@ import { unstable_useViewTransitionState } from 'react-router-dom';
 
 const Exercise = ({ workouts, setWorkouts, exerciseOptions, setExerciseOptions }) => {
     const initialExerciseType = exerciseOptions.length > 0 ? exerciseOptions[0].name : '';
+    console.log(initialExerciseType);
     const [exerciseType, setExerciseType] = useState(initialExerciseType);
     console.log(exerciseOptions);
     

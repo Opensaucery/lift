@@ -102,7 +102,7 @@ function AppBody({ workouts, setWorkouts, exerciseOptions, setExerciseOptions })
       localStorage.removeItem('workouts'); // Clear local storage
       localStorage.removeItem('exerciseOptions'); // Clear local storage
       setWorkouts({});
-      setExerciseOptions(['Pushup', 'Biceps', 'Squat']);
+      setExerciseOptions([{name: 'Pushup', weight: 0}, {name: 'Biceps', weight: 5}, {name: 'Squat', weight: 0}]);
   
     } catch (error) {
     console.error("Logout error: ", error);
@@ -120,7 +120,7 @@ function AppBody({ workouts, setWorkouts, exerciseOptions, setExerciseOptions })
           
             if (docSnap.exists()) {
               setWorkouts(docSnap.data().workouts || {});
-              setExerciseOptions(docSnap.data().exerciseOptions || ['Pushup', 'Biceps', 'Squat']);
+              setExerciseOptions(docSnap.data().exerciseOptions || [{name: 'Pushup', weight: 0}, {name: 'Biceps', weight: 5}, {name: 'Squat', weight: 0}]);
             } 
         } 
     }; 
